@@ -1,4 +1,4 @@
-package com.javisoft.RabbitOn
+package com.javisoft.rabbiton
 
 import org.junit.Test
 
