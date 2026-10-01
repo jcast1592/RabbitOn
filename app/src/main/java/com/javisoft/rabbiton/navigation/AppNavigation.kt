@@ -13,18 +13,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.javisoft.rabbiton.R
-import com.javisoft.rabbiton.navigation.Routes.CALENDAR
-import com.javisoft.rabbiton.navigation.Routes.SETTINGS
-import com.javisoft.rabbiton.navigation.Routes.STATISTICS
+import com.javisoft.rabbiton.navigation.Destinations.CALENDAR
+import com.javisoft.rabbiton.navigation.Destinations.SETTINGS
+import com.javisoft.rabbiton.navigation.Destinations.STATISTICS
 import com.javisoft.rabbiton.ui.calendar.CalendarScreen
 import com.javisoft.rabbiton.ui.settings.SettingsScreen
 import com.javisoft.rabbiton.ui.statistics.StatisticsScreen
-
-object Routes {
-    const val CALENDAR = "calendar"
-    const val STATISTICS = "statistics"
-    const val SETTINGS = "settings"
-}
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
