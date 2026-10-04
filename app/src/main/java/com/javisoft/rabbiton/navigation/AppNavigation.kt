@@ -12,17 +12,25 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.javisoft.rabbiton.R
 import com.javisoft.rabbiton.navigation.Destinations.CALENDAR
 import com.javisoft.rabbiton.navigation.Destinations.SETTINGS
 import com.javisoft.rabbiton.navigation.Destinations.STATISTICS
 import com.javisoft.rabbiton.ui.calendar.CalendarScreen
+import com.javisoft.rabbiton.ui.components.FloatingActionEvent
 import com.javisoft.rabbiton.ui.settings.SettingsScreen
 import com.javisoft.rabbiton.ui.statistics.StatisticsScreen
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
     Scaffold(
+        floatingActionButton = {
+            if (currentRoute == CALENDAR) {
+                FloatingActionEvent()
+            }
+        },
         bottomBar = {
             NavigationBar {
                 NavigationBarItem(
