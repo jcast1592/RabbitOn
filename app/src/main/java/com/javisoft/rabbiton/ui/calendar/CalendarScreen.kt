@@ -28,19 +28,6 @@ fun CalendarScreen() {
                 selectedDate = date
             }
         )
-
-        SelectedDateSection(
-            selectedDate = selectedDate
-        )
+        EmptyStateCard()
     }
-}
-
-@Composable
-fun SelectedDateSection(
-    selectedDate: LocalDate
-) {
-    Text(
-        text = "Selected Date: " +
-                "${selectedDate.dayOfMonth}/${selectedDate.monthValue}/${selectedDate.year}"
-    )
 }
