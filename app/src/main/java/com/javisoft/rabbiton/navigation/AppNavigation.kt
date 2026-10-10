@@ -70,7 +70,7 @@ fun AppNavigation(navController: NavHostController) {
                                 }
                             )
                         }
-                        FloatingActionEvent {
+                        FloatingActionEvent(isFabExpanded) {
                             Log.d("AppNavigation", "FloatingActionEvent clicked")
                             isFabExpanded = !isFabExpanded
                         }

@@ -22,14 +22,16 @@ import androidx.compose.ui.unit.dp
 import com.javisoft.rabbiton.R
 
 @Composable
-fun FloatingActionEvent(onClick: () -> Unit) {
+fun FloatingActionEvent(isFabExpanded: Boolean, onClick: () -> Unit) {
     ExtendedFloatingActionButton(
         onClick = onClick
     ) {
-        Text("Add Event")
+        val floatActionButtonText = if (isFabExpanded) "Close" else "Add Event"
+        val floatActionButtonIcon = if (isFabExpanded) R.drawable.cancel_24dp else R.drawable.heart_plus_24dp
+        Text(floatActionButtonText)
         Spacer(modifier = Modifier.width(8.dp))
         Icon(
-            painter = painterResource(R.drawable.heart_plus_24dp),
+            painter = painterResource(floatActionButtonIcon),
             contentDescription = "Add Event"
         )
     }
