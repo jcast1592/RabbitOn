@@ -2,14 +2,9 @@ package com.javisoft.rabbiton.ui.components
 
 import android.util.Log
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -20,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.javisoft.rabbiton.R
+import com.javisoft.rabbiton.model.EventCreationType
 
 @Composable
 fun FloatingActionEvent(isFabExpanded: Boolean, onClick: () -> Unit) {
@@ -27,7 +23,8 @@ fun FloatingActionEvent(isFabExpanded: Boolean, onClick: () -> Unit) {
         onClick = onClick
     ) {
         val floatActionButtonText = if (isFabExpanded) "Close" else "Add Event"
-        val floatActionButtonIcon = if (isFabExpanded) R.drawable.cancel_24dp else R.drawable.heart_plus_24dp
+        val floatActionButtonIcon =
+            if (isFabExpanded) R.drawable.cancel_24dp else R.drawable.heart_plus_24dp
         Text(floatActionButtonText)
         Spacer(modifier = Modifier.width(8.dp))
         Icon(
@@ -39,21 +36,17 @@ fun FloatingActionEvent(isFabExpanded: Boolean, onClick: () -> Unit) {
 
 
 @Composable
-fun FABEvent(onSexualIntercourseClick: () -> Unit,
-             onCruisingClick: () -> Unit,
-             onMasturbationClick: () -> Unit
+fun EventCreationMenu(
+    onSexualIntercourseClick: () -> Unit,
+    onCruisingClick: () -> Unit,
+    onMasturbationClick: () -> Unit
 ) {
 
     ExtendedFloatingActionButton(onClick = {
         Log.i("FABEvent", "Sexual Intercourse clicked")
         onSexualIntercourseClick()
     }) {
-        Text("Sexual Intercourse")
-        Spacer(modifier = Modifier.width(8.dp))
-        Icon(
-            painter = painterResource(R.drawable.heart_smile_24dp),
-            contentDescription = "Add Event"
-        )
+        FABContent(text = "Sexual Intercourse", iconRes = R.drawable.heart_smile_24dp)
     }
 
     Spacer(modifier = Modifier.height(8.dp))
@@ -62,12 +55,7 @@ fun FABEvent(onSexualIntercourseClick: () -> Unit,
         Log.i("FABEvent", "Cruising clicked")
         onCruisingClick()
     }) {
-        Text("Cruising")
-        Spacer(modifier = Modifier.width(8.dp))
-        Icon(
-            painter = painterResource(R.drawable.fire_24dp),
-            contentDescription = "Add Event"
-        )
+        FABContent(text = "Cruising", iconRes = R.drawable.fire_24dp)
     }
 
     Spacer(modifier = Modifier.height(8.dp))
@@ -76,50 +64,62 @@ fun FABEvent(onSexualIntercourseClick: () -> Unit,
         Log.i("FABEvent", "Masturbation clicked")
         onMasturbationClick()
     }) {
-        Text("Masturbation")
-        Spacer(modifier = Modifier.width(8.dp))
-        Icon(
-            painter = painterResource(R.drawable.hand_gesture_24dp),
-            contentDescription = "Add Event"
-        )
+        FABContent(text = "Masturbation", iconRes = R.drawable.hand_gesture_24dp)
     }
 
     Spacer(modifier = Modifier.height(16.dp))
 }
 
+@Composable
+private fun FABContent(text: String, @DrawableRes iconRes: Int) {
+    Text(text)
+    Spacer(modifier = Modifier.width(8.dp))
+    Icon(
+        painter = painterResource(iconRes),
+        contentDescription = text
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModalBottomSheetEvent(isBottomSheetVisible: Boolean, onVisibleChanged: (Boolean) -> Unit) {
-    Log.i("ModalBottomSheetEvent", "isBottomSheetVisible: $isBottomSheetVisible")
-    if (isBottomSheetVisible) {
+fun ModalBottomSheetEvent(
+    selectedEventType: EventCreationType?,
+    onSelectedEventTypeChanged: (EventCreationType?) -> Unit
+) {
+    selectedEventType?.let { eventType ->
         ModalBottomSheet(
             onDismissRequest = {
-                onVisibleChanged(false)
+                onSelectedEventTypeChanged(null)
             }
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                ActivityCard(R.drawable.heart_plus_24dp, "Sexual\nIntercourse")
-                ActivityCard(R.drawable.fire_24dp, "Cruising")
-                ActivityCard(R.drawable.hand_gesture_24dp, "Masturbation")
+            when (eventType) {
+                EventCreationType.SEXUAL_INTERCOURSE -> {
+                    SexualIntercourseContent()
+                }
+
+                EventCreationType.CRUISING -> {
+                    CruisingContent()
+                }
+
+                EventCreationType.MASTURBATION -> {
+                    MasturbationContent()
+                }
             }
         }
     }
 }
 
 @Composable
-fun ActivityCard(@DrawableRes activityIcon: Int, activityText: String) {
-    Card(
-        modifier = Modifier.width(120.dp)
-    ) {
-        Column {
-            Icon(
-                painter = painterResource(activityIcon),
-                contentDescription = activityText
-            )
-            Text(text = activityText)
-        }
-    }
+private fun SexualIntercourseContent() {
+    Text("Sexual Intercourse Event Creation")
+}
+
+@Composable
+private fun CruisingContent() {
+    Text("Cruising Event Creation")
+}
+
+@Composable
+private fun MasturbationContent() {
+    Text("Masturbation Event Creation")
 }
