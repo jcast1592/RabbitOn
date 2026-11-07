@@ -27,9 +27,9 @@ import com.javisoft.rabbiton.navigation.Destinations.CALENDAR
 import com.javisoft.rabbiton.navigation.Destinations.SETTINGS
 import com.javisoft.rabbiton.navigation.Destinations.STATISTICS
 import com.javisoft.rabbiton.ui.calendar.CalendarScreen
+import com.javisoft.rabbiton.ui.calendar.bottomsheetevent.ModalBottomSheetEvent
 import com.javisoft.rabbiton.ui.components.EventCreationMenu
 import com.javisoft.rabbiton.ui.components.FloatingActionEvent
-import com.javisoft.rabbiton.ui.components.ModalBottomSheetEvent
 import com.javisoft.rabbiton.ui.settings.SettingsScreen
 import com.javisoft.rabbiton.ui.statistics.StatisticsScreen
 

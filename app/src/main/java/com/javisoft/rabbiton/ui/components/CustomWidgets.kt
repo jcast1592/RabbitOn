@@ -3,19 +3,24 @@ package com.javisoft.rabbiton.ui.components
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.ElevatedFilterChip
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.javisoft.rabbiton.R
-import com.javisoft.rabbiton.model.EventCreationType
 
 @Composable
 fun FloatingActionEvent(isFabExpanded: Boolean, onClick: () -> Unit) {
@@ -42,36 +47,47 @@ fun EventCreationMenu(
     onMasturbationClick: () -> Unit
 ) {
 
-    ExtendedFloatingActionButton(onClick = {
-        Log.i("FABEvent", "Sexual Intercourse clicked")
-        onSexualIntercourseClick()
-    }) {
-        FABContent(text = "Sexual Intercourse", iconRes = R.drawable.heart_smile_24dp)
-    }
+    EventTypeFab(
+        text = "Sexual Intercourse",
+        iconRes = R.drawable.heart_smile_24dp,
+        onClick = onSexualIntercourseClick
+    )
 
     Spacer(modifier = Modifier.height(8.dp))
 
-    ExtendedFloatingActionButton(onClick = {
-        Log.i("FABEvent", "Cruising clicked")
-        onCruisingClick()
-    }) {
-        FABContent(text = "Cruising", iconRes = R.drawable.fire_24dp)
-    }
+    EventTypeFab(
+        text = "Cruising",
+        iconRes = R.drawable.fire_24dp,
+        onClick = onCruisingClick
+    )
 
     Spacer(modifier = Modifier.height(8.dp))
 
-    ExtendedFloatingActionButton(onClick = {
-        Log.i("FABEvent", "Masturbation clicked")
-        onMasturbationClick()
-    }) {
-        FABContent(text = "Masturbation", iconRes = R.drawable.hand_gesture_24dp)
-    }
+    EventTypeFab(
+        text = "Masturbation",
+        iconRes = R.drawable.hand_gesture_24dp,
+        onClick = onMasturbationClick
+    )
 
     Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
-private fun FABContent(text: String, @DrawableRes iconRes: Int) {
+private fun EventTypeFab(
+    text: String,
+    @DrawableRes iconRes: Int,
+    onClick: () -> Unit
+) {
+    ExtendedFloatingActionButton(onClick = {
+        Log.i("FABEvent", "$text clicked")
+        onClick()
+    }) {
+        FabContent(text = text, iconRes = iconRes)
+    }
+}
+
+@Composable
+private fun FabContent(text: String, @DrawableRes iconRes: Int) {
     Text(text)
     Spacer(modifier = Modifier.width(8.dp))
     Icon(
@@ -80,46 +96,60 @@ private fun FABContent(text: String, @DrawableRes iconRes: Int) {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModalBottomSheetEvent(
-    selectedEventType: EventCreationType?,
-    onSelectedEventTypeChanged: (EventCreationType?) -> Unit
+fun FormTitle(title: String) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.titleLarge
+    )
+}
+
+@Composable
+fun FormSubtitle(title: String) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.titleMedium
+    )
+}
+
+@Composable
+fun FormChip(
+    chipSelected: Boolean,
+    chipText: String,
+    selectedChanged: () -> Unit
 ) {
-    selectedEventType?.let { eventType ->
-        ModalBottomSheet(
-            onDismissRequest = {
-                onSelectedEventTypeChanged(null)
+    ElevatedFilterChip(
+        selected = chipSelected,
+        onClick = {
+            selectedChanged()
+        },
+        label = { Text(chipText) },
+        leadingIcon = if (chipSelected) {
+            {
+                Icon(
+                    painter = painterResource(R.drawable.check_circle_24dp),
+                    contentDescription = null,
+                    modifier = Modifier.size(AssistChipDefaults.IconSize)
+                )
             }
-        ) {
-            when (eventType) {
-                EventCreationType.SEXUAL_INTERCOURSE -> {
-                    SexualIntercourseContent()
-                }
-
-                EventCreationType.CRUISING -> {
-                    CruisingContent()
-                }
-
-                EventCreationType.MASTURBATION -> {
-                    MasturbationContent()
-                }
-            }
+        } else {
+            null
         }
+    )
+}
+
+@Composable
+fun OtherOptionField(
+    otherTextFieldState: TextFieldState,
+    isOtherSelected: Boolean,
+    otherTextFieldMessage: String
+) {
+    if (isOtherSelected) {
+        TextField(
+            state = otherTextFieldState,
+            label = { Text(otherTextFieldMessage) },
+            modifier = Modifier.fillMaxWidth(),
+            lineLimits = TextFieldLineLimits.SingleLine
+        )
     }
-}
-
-@Composable
-private fun SexualIntercourseContent() {
-    Text("Sexual Intercourse Event Creation")
-}
-
-@Composable
-private fun CruisingContent() {
-    Text("Cruising Event Creation")
-}
-
-@Composable
-private fun MasturbationContent() {
-    Text("Masturbation Event Creation")
 }
