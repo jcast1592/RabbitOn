@@ -9,3 +9,13 @@ enum class CruisingPlace {
     CINEMA,
     OTHER
 }
+
+fun CruisingPlace.getName() : String = when (this) {
+    CruisingPlace.STEAM_BATH -> "Steam Bath"
+    CruisingPlace.SEX_CLUB -> "Sex Club"
+    CruisingPlace.SUBWAY -> "Subway"
+    CruisingPlace.PARK -> "Public Park"
+    CruisingPlace.WC -> "WC"
+    CruisingPlace.CINEMA -> "Cinema"
+    CruisingPlace.OTHER -> "Other"
+}
